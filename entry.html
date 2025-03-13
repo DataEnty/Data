@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ÅÏÎÇá ÇáÈíÇäÇÊ</title>
+    <title>Ø¥Ø¯Ø®Ø§Ù„ Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -79,7 +79,7 @@
             let notes = document.getElementById("notes").value;
             
             if (!aviso || !link || !notes) {
-                alert("íÑÌì ãáÁ ÌãíÚ ÇáÍÞæá");
+                alert("ÙŠØ±Ø¬Ù‰ Ù…Ù„Ø¡ Ø¬Ù…ÙŠØ¹ Ø§Ù„Ø­Ù‚ÙˆÙ„");
                 return;
             }
             
@@ -91,7 +91,7 @@
             let user = document.getElementById("user").value;
             
             if (!aviso || !user) {
-                alert("íÑÌì ãáÁ ÌãíÚ ÇáÍÞæá");
+                alert("ÙŠØ±Ø¬Ù‰ Ù…Ù„Ø¡ Ø¬Ù…ÙŠØ¹ Ø§Ù„Ø­Ù‚ÙˆÙ„");
                 return;
             }
             
@@ -120,7 +120,7 @@
                 row.insertCell(2).textContent = entry.notes;
                 let deleteCell = row.insertCell(3);
                 let deleteButton = document.createElement("button");
-                deleteButton.textContent = "ÍÐÝ";
+                deleteButton.textContent = "Ø­Ø°Ù";
                 deleteButton.onclick = () => deleteEntry(key);
                 deleteCell.appendChild(deleteButton);
                 
@@ -142,7 +142,7 @@
                 row.insertCell(1).textContent = entry.user;
                 let deleteCell = row.insertCell(2);
                 let deleteButton = document.createElement("button");
-                deleteButton.textContent = "ÍÐÝ";
+                deleteButton.textContent = "Ø­Ø°Ù";
                 deleteButton.onclick = () => deleteUser(key);
                 deleteCell.appendChild(deleteButton);
             });
@@ -150,13 +150,13 @@
     </script>
 </head>
 <body>
-    <h2>ÅÏÎÇá ÇáÈíÇäÇÊ</h2>
+    <h2>Ø¥Ø¯Ø®Ø§Ù„ Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª</h2>
     <div class="input-container">
         <input type="text" id="aviso" placeholder="Aviso">
         <input type="text" id="link" placeholder="Link">
         <input type="text" id="notes" placeholder="Notes">
     </div>
-    <button onclick="addEntry()">ÅÖÇÝÉ</button>
+    <button onclick="addEntry()">Ø¥Ø¶Ø§ÙØ©</button>
     
     <table>
         <thead>
@@ -164,27 +164,27 @@
                 <th>Aviso</th>
                 <th>Link</th>
                 <th>Notes</th>
-                <th>ÍÐÝ</th>
+                <th>Ø­Ø°Ù</th>
             </tr>
         </thead>
         <tbody id="entryTable"></tbody>
     </table>
 
-    <h2>ÅÏÎÇá íæÒÑÇÊ</h2>
+    <h2>Ø¥Ø¯Ø®Ø§Ù„ ÙŠÙˆØ²Ø±Ø§Øª</h2>
     <div class="input-container">
-        <label for="avisoSelect">ÇÎÊÑ Aviso:</label>
+        <label for="avisoSelect">Ø§Ø®ØªØ± Aviso:</label>
         <select id="avisoSelect"></select>
         <label for="user">User:</label>
         <input type="text" id="user">
     </div>
-    <button onclick="addUser()">ÅÖÇÝÉ</button>
+    <button onclick="addUser()">Ø¥Ø¶Ø§ÙØ©</button>
     
     <table>
         <thead>
             <tr>
                 <th>Aviso</th>
                 <th>User</th>
-                <th>ÍÐÝ</th>
+                <th>Ø­Ø°Ù</th>
             </tr>
         </thead>
         <tbody id="userTable"></tbody>
