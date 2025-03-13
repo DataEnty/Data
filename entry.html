@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>≈œŒ«· «·»Ì«‰« </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fffaf0;
+            text-align: center;
+            padding: 20px;
+        }
+        .input-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        input, select {
+            width: 50%;
+            padding: 8px;
+            border: 1px solid #ffa07a;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:first-of-type {
+            background-color: #ffa07a;
+            color: white;
+        }
+        button:last-of-type {
+            background-color: #ffcc99;
+            color: black;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff5e6;
+        }
+        th, td {
+            border: 1px solid #ffa07a;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #ffcc99;
+        }
+    </style>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAB4wO937rCwc0OTWeJlGgoaxErWOdjaJM",
+            authDomain: "my-new-a6e9f.firebaseapp.com",
+            databaseURL: "https://my-new-a6e9f-default-rtdb.firebaseio.com/",
+            projectId: "my-new-a6e9f",
+            storageBucket: "my-new-a6e9f.appspot.com",
+            messagingSenderId: "1034729064842",
+            appId: "1:1034729064842:web:5b3d42fe7b5c0f3a3ae073"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const dataRef = ref(db, "entries");
+        const usersRef = ref(db, "users");
+
+        window.addEntry = function () {
+            let aviso = document.getElementById("aviso").value;
+            let link = document.getElementById("link").value;
+            let notes = document.getElementById("notes").value;
+            
+            if (!aviso || !link || !notes) {
+                alert("Ì—ÃÏ „·¡ Ã„Ì⁄ «·ÕﬁÊ·");
+                return;
+            }
+            
+            push(dataRef, { aviso, link, notes });
+        };
+
+        window.addUser = function () {
+            let aviso = document.getElementById("avisoSelect").value;
+            let user = document.getElementById("user").value;
+            
+            if (!aviso || !user) {
+                alert("Ì—ÃÏ „·¡ Ã„Ì⁄ «·ÕﬁÊ·");
+                return;
+            }
+            
+            push(usersRef, { aviso, user });
+        };
+
+        window.deleteEntry = function (key) {
+            remove(ref(db, "entries/" + key));
+        };
+
+        window.deleteUser = function (key) {
+            remove(ref(db, "users/" + key));
+        };
+
+        onValue(dataRef, (snapshot) => {
+            let table = document.getElementById("entryTable");
+            let avisoSelect = document.getElementById("avisoSelect");
+            table.innerHTML = "";
+            avisoSelect.innerHTML = "";
+            snapshot.forEach((childSnapshot) => {
+                let key = childSnapshot.key;
+                let entry = childSnapshot.val();
+                let row = table.insertRow();
+                row.insertCell(0).textContent = entry.aviso;
+                row.insertCell(1).textContent = entry.link;
+                row.insertCell(2).textContent = entry.notes;
+                let deleteCell = row.insertCell(3);
+                let deleteButton = document.createElement("button");
+                deleteButton.textContent = "Õ–›";
+                deleteButton.onclick = () => deleteEntry(key);
+                deleteCell.appendChild(deleteButton);
+                
+                let option = document.createElement("option");
+                option.value = entry.aviso;
+                option.textContent = entry.aviso;
+                avisoSelect.appendChild(option);
+            });
+        });
+
+        onValue(usersRef, (snapshot) => {
+            let table = document.getElementById("userTable");
+            table.innerHTML = "";
+            snapshot.forEach((childSnapshot) => {
+                let key = childSnapshot.key;
+                let entry = childSnapshot.val();
+                let row = table.insertRow();
+                row.insertCell(0).textContent = entry.aviso;
+                row.insertCell(1).textContent = entry.user;
+                let deleteCell = row.insertCell(2);
+                let deleteButton = document.createElement("button");
+                deleteButton.textContent = "Õ–›";
+                deleteButton.onclick = () => deleteUser(key);
+                deleteCell.appendChild(deleteButton);
+            });
+        });
+    </script>
+</head>
+<body>
+    <h2>≈œŒ«· «·»Ì«‰« </h2>
+    <div class="input-container">
+        <input type="text" id="aviso" placeholder="Aviso">
+        <input type="text" id="link" placeholder="Link">
+        <input type="text" id="notes" placeholder="Notes">
+    </div>
+    <button onclick="addEntry()">≈÷«›…</button>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Aviso</th>
+                <th>Link</th>
+                <th>Notes</th>
+                <th>Õ–›</th>
+            </tr>
+        </thead>
+        <tbody id="entryTable"></tbody>
+    </table>
+
+    <h2>≈œŒ«· ÌÊ“—« </h2>
+    <div class="input-container">
+        <label for="avisoSelect">«Œ — Aviso:</label>
+        <select id="avisoSelect"></select>
+        <label for="user">User:</label>
+        <input type="text" id="user">
+    </div>
+    <button onclick="addUser()">≈÷«›…</button>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Aviso</th>
+                <th>User</th>
+                <th>Õ–›</th>
+            </tr>
+        </thead>
+        <tbody id="userTable"></tbody>
+    </table>
+</body>
+</html>
